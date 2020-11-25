@@ -10,6 +10,13 @@
 ## [] Vender el Producto
 
 
+## imagen 
+
+> modelo R
+!.[modelo].(imagen/modelor.jpg)
+
+
+
 
 
 
