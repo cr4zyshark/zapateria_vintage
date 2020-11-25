@@ -29,12 +29,10 @@ CREATE TABLE trabajador(
 );
 -----------------------------------------------------------------------
 
----- crear datos 
+-- crear datos 
 
 INSERT INTO trabajador VALUES(null, "jose pino", "123");
 INSERT INTO trabajador VALUES(null, "daniela perez", "234");
-INSERT INTO trabajador VALUES(null, "daniela perez", "234");
-
 
 
 
