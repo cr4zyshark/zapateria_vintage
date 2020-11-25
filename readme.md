@@ -3,17 +3,10 @@
 ## Integrantes: Jose Pino
 
 
-## Descripcion del Proyecto:
-## creacion de un programa de ventas de zapatos y zapatillas para una tienda que esta recien comenzando en el rubro.
-## solamente se dedican a traer modelos vintages en un bajo stock ya que debido a que son de años anteriores, son mas dificiles de encontrarlos. 
-
-
-## Modelo R: 
-
-
-
-
-## ejecucion del programa:
-
+# PROBLEMATICA:
+## El dueño de una tienda de venta calzado vintage me solicita la creacion de un programa para administra de manera correcta su tienda, nos solicita los siguientes requisitos:
+## [] Ingresar Producto
+## [] Mostrar los Productos  
+## [] Vender el Producto
 
 

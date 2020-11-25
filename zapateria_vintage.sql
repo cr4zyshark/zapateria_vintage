@@ -21,23 +21,48 @@ Use zapateria;
 CREATE TABLE trabajador(
     id_trabajador INT AUTO_INCREMENT,
     nombre VARCHAR(30),
-    contraseña VARCHAR(64), 
+    contraseña VARCHAR(64), --editar shar
 
     PRIMARY KEY(id_trabajador)
 
 
 );
+-----------------------------------------------------------------------
+
+-- crear datos 
+
+INSERT INTO trabajador VALUES(null, "jose pino", "123");
+
+
+
+
+-----------------------------------------------------------------------
+
+
 
 -- cliente
 CREATE TABLE cliente(
-    rut_cliente INT AUTO_INCREMENT,
+    id_cliente INT AUTO_INCREMENT,
+    rut_cliente VARCHAR(30),
     nombre VARCHAR(30),
 
 
-    PRIMARY KEY(rut_cliente)
+    PRIMARY KEY(id_cliente)
 
 
 );
+
+-----------------------------------------------------------------------
+
+-- crear datos 
+
+INSERT INTO cliente VALUES(null,"20234173-2", "carlos");
+
+
+
+
+-----------------------------------------------------------------------
+
 
 
 
@@ -52,6 +77,23 @@ CREATE TABLE categoria(
 
 
 );
+
+
+-----------------------------------------------------------------------
+
+-- crear datos 
+
+INSERT INTO categoria VALUES(null, "zapatos");
+INSERT INTO categoria VALUES(null, "zapatillas");
+
+
+
+
+-----------------------------------------------------------------------
+
+
+
+
 
 
 -- producto
@@ -71,6 +113,21 @@ CREATE TABLE producto(
 
 );
 
+
+-----------------------------------------------------------------------
+
+-- crear datos      
+                                                          -- categoria
+INSERT INTO producto VALUES(null, "adidas revolt", 5000, 39,        2);
+
+
+
+
+
+-----------------------------------------------------------------------
+
+
+
 -- factura 
 CREATE TABLE factura(
     id_factura INT AUTO_INCREMENT,
@@ -78,20 +135,33 @@ CREATE TABLE factura(
     -- fk
 
     cliente_id_fk INT,
-    trabajador_id_fk INT
+    trabajador_id_fk INT,
 
     -- datos
 
-    fecha_venta NOW,
+    fecha_venta DATETIME,  -- e
 
     PRIMARY KEY(id_factura),
 
 
-    FOREIGN KEY(cliente_id_fk) REFERENCES cliente(rut_cliente),
+    FOREIGN KEY(cliente_id_fk) REFERENCES cliente(id_cliente),
     FOREIGN KEY(trabajador_id_fk) REFERENCES trabajador(id_trabajador)
 
 
 );
+
+-----------------------------------------------------------------------
+
+-- crear datos 
+                           -- id_factura(1)   --id_cliente  -- id_trabajador   -- fecha_venta (ahora)
+INSERT INTO factura VALUES(null          ,  1           ,           1        , NOW());
+
+
+
+
+-----------------------------------------------------------------------
+
+
 
 
 -- detalle de los producto
@@ -120,11 +190,36 @@ CREATE TABLE detalle(
 
 );
 
+-----------------------------------------------------------------------
+
+-- crear datos: 
+                         -- id_detalle   -- id_factura   -- id_producto    -- cantidad    -- precio del producto segun la cantidad     -- mismo id_producto       -- misma cantidad
+INSERT INTO detalle VALUES(null        ,       1       ,       1         ,    3        , (SELECT precio FROM producto WHERE id_producto =    1)                  *  3);
 
 
-------------------
--- creacion datos 
-------------------
+
+
+-----------------------------------------------------------------------
+
+
+
+
+
+-----------------------------------------------------------------------
+----- consultas:
+
+
+
+
+
+
+-----------------------------------------------------------------------
+
+
+
+
+
+
 
 
 
