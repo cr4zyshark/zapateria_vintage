@@ -13,7 +13,7 @@
 ## imagen 
 
 > modelo R
-!.[modelo].(imagen/modelor.jpg)
+### !.[modelo].(imagen/modelor.jpg)
 
 
 
