@@ -20,7 +20,7 @@ Use zapateria;
 CREATE TABLE trabajador(
     id_trabajador INT AUTO_INCREMENT,
     nombre VARCHAR(30),
-    contraseña VARCHAR(64), --editar shar
+    contraseña VARCHAR(64), -- editar sha2('123,0)
 
     PRIMARY KEY(id_trabajador)
 
@@ -102,7 +102,7 @@ INSERT INTO producto VALUES(null, "adidas revolt", 5000, 39,        2);
 
 -----------------------------------------------------------------------
 
--- triggers: historial de los precios anteriores 
+-- triggers historial de los precios anteriores 
 
 CREATE TABLE historial_precio(
     id_historial int AUTO_INCREMENT,
@@ -127,6 +127,7 @@ CREATE TABLE factura(
     -- datos
 
     fecha_venta DATETIME,  -- e
+    estado_pago BIT DEFAULT 0,
 
     PRIMARY KEY(id_factura),
 
@@ -141,10 +142,32 @@ CREATE TABLE factura(
 
 -- crear datos 
                            -- id_factura(1)   --id_cliente  -- id_trabajador   -- fecha_venta (ahora)
-INSERT INTO factura VALUES(null          ,  1         1  ,           1        , NOW());
+INSERT INTO factura VALUES(null          ,  1          ,           1        , NOW() , 0);
 
+
+UPDATE factura SET estado_pago = 1 WHERE id_factura = 1;
 ------------------------------------------------------------------------
 
+-- trigger 2
+
+CREATE table factura_pagada(
+    id_fact_pagado INT AUTO_INCREMENT,
+    factura_id_fk int,
+    fecha_venta DATETIME,
+    estado_pago BIT DEFAULT 0,
+
+    PRIMARY KEY(id_fact_pagado),
+
+    FOREIGN key (factura_id_fk) REFERENCES factura (id_factura)
+
+
+
+);
+
+
+
+
+-------------------------------------------------------------------
 -- detalle de los producto
 CREATE TABLE detalle(
     id_detalle INT AUTO_INCREMENT,
@@ -288,25 +311,43 @@ update producto set precio = 1300 where id_producto = 4;
 
 ----------------------------------------------------------------
 ------ trigger 2
-
-
-
--- falta realizar
+-- el estado de pago de factura se actualiza en la tabla factura-pagada
+-- mostrar la factura y estado del pago de la factura (1 o 0)
 
 delimiter //
 
-create TRIGGER gatillo2 BEFORE INSERT ON factura
+create TRIGGER gatillo3 before UPDATE ON factura
 
 FOR EACH ROW 
 
 BEGIN
                                   -- muestra los datos que necesita de la tabla producto
-    INSERT INTO historial_precio values(NULL,OLD.nombre_producto, OLD.precio );
+    INSERT INTO factura_pagada values(null,old.id_factura,old.fecha_venta, OLD.estado_pago);
 
 END//
 
 delimiter ;
 
+
+-------------------------------------------------------------------------------------------------
+
+-- funcion 
+
+
+-- muestra el nombre de los clientes mediante la id 
+
+delimiter //
+
+CREATE FUNCTION nombre_cliente (_id_clientes INT) RETURNS VARCHAR(30)
+BEGIN
+    RETURN (select nombre FROM cliente WHERE id_cliente = _id_clientes);
+    END //
+
+DELIMITER ;
+
+-- consultar 
+
+select nombre_cliente(1);
 
 
 
