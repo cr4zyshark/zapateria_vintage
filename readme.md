@@ -14,7 +14,7 @@
 
 > modelo 
 
-![modelo].(imagen/modelo_R.jpeg)
+![modelo](imagen/modelo_R.jpeg)
 
 
 
