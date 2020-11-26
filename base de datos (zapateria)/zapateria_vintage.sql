@@ -13,7 +13,6 @@ Use zapateria;
 ------------------
 
 
-
 -- login
 
 -- un usuario atiende al cliente 
@@ -34,13 +33,7 @@ CREATE TABLE trabajador(
 INSERT INTO trabajador VALUES(null, "jose pino", "123");
 INSERT INTO trabajador VALUES(null, "daniela perez", "234");
 
-
-
-
-
 -----------------------------------------------------------------------
-
-
 
 -- cliente
 CREATE TABLE cliente(
@@ -60,13 +53,7 @@ CREATE TABLE cliente(
 
 INSERT INTO cliente VALUES(null,"20234173-2", "carlos");
 
-
-
-
 -----------------------------------------------------------------------
-
-
-
 
 -- categoria
 CREATE TABLE categoria(
@@ -80,23 +67,13 @@ CREATE TABLE categoria(
 
 );
 
-
 -----------------------------------------------------------------------
-
 -- crear datos 
 
 INSERT INTO categoria VALUES(null, "zapatos");
 INSERT INTO categoria VALUES(null, "zapatillas");
 
-
-
-
 -----------------------------------------------------------------------
-
-
-
-
-
 
 -- producto
 CREATE TABLE producto(
@@ -104,6 +81,7 @@ CREATE TABLE producto(
     nombre_producto VARCHAR(30),
     precio INT,
     talla INT,
+
 
     -- FK
     categoria_id_fk INT,
@@ -115,7 +93,6 @@ CREATE TABLE producto(
 
 );
 
-
 -----------------------------------------------------------------------
 
 -- crear datos      
@@ -123,10 +100,20 @@ CREATE TABLE producto(
 INSERT INTO producto VALUES(null, "adidas revolt", 5000, 39,        2);
 
 
-
 -----------------------------------------------------------------------
 
+-- triggers: historial de los precios anteriores 
 
+CREATE TABLE historial_precio(
+    id_historial int AUTO_INCREMENT,
+    nombre VARCHAR(30),
+    precio_anterior INT,
+
+
+    PRIMARY KEY(id_historial)
+
+);
+-------------------------------------------------------------------
 
 -- factura 
 CREATE TABLE factura(
@@ -156,13 +143,7 @@ CREATE TABLE factura(
                            -- id_factura(1)   --id_cliente  -- id_trabajador   -- fecha_venta (ahora)
 INSERT INTO factura VALUES(null          ,  1         1  ,           1        , NOW());
 
-
-
-
------------------------------------------------------------------------
-
-
-
+------------------------------------------------------------------------
 
 -- detalle de los producto
 CREATE TABLE detalle(
@@ -201,14 +182,13 @@ INSERT INTO detalle VALUES(null        ,       1       ,       1         ,    3 
 
 -----------------------------------------------------------------------
 
-
-
-
+----------------------------------------------------------------------------------------------------------------
 
 -----------------------------------------------------------------------
+
 ----- procedimiento 
 
---- ingresar producto
+--- ingresar productos
 
 
 DELIMITER //
@@ -243,8 +223,10 @@ call agregar_producto("court", 3000,41,2);
 
 
 -----------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------------
 
--- borrar producto
+
+--- procedimiento:  borrar producto en caso de error de escritura o datos 
 
 DELIMITER $$
 CREATE PROCEDURE borrar_producto(IN _id_producto INT)
@@ -275,10 +257,65 @@ DELIMITER ;
 
 call borrar_producto(2);
 
-
+---------------------------------------------------------------------------------------------------------
 
 ---------------------------------------------------------------------
-------- Trigger
+------- Trigger:
+
+-- historial de precio anterior 
+
+
+delimiter //
+
+create TRIGGER gatillo BEFORE UPDATE ON producto
+
+FOR EACH ROW 
+
+BEGIN
+                                  -- muestra los datos que necesita de la tabla producto
+    INSERT INTO historial_precio values(NULL,OLD.nombre_producto, OLD.precio );
+
+END//
+
+delimiter ;
+
+
+-- datos prueba 
+
+update producto set precio = 1300 where id_producto = 4;
+
+----------------------------------------------------------------------------------------------------------
+
+----------------------------------------------------------------
+------ trigger 2
+
+
+
+-- falta realizar
+
+delimiter //
+
+create TRIGGER gatillo2 BEFORE INSERT ON factura
+
+FOR EACH ROW 
+
+BEGIN
+                                  -- muestra los datos que necesita de la tabla producto
+    INSERT INTO historial_precio values(NULL,OLD.nombre_producto, OLD.precio );
+
+END//
+
+delimiter ;
+
+
+
+
+
+----------------------------------------------------------------------------
+
+
+
+
 
 
 
