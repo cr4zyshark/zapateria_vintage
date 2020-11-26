@@ -12,8 +12,9 @@
 
 ## imagen 
 
-> modelo R
-### !.[modelo].(imagen/modelor.jpg)
+> modelo 
+
+![modelo].(imagen/modelo_R.jpeg)
 
 
 
