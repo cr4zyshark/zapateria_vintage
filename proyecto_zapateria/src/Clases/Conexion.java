@@ -5,42 +5,48 @@
  */
 package Clases;
 
-import com.sun.jdi.connect.spi.Connection;
+
+import java.sql. *; // importar conexion manual
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
  * @author Jose
  */
-//public class Conexion {
-//    
-//    Connection Conectar;
-//    private String host = "Localhost";
-//    private String port = "3306";
-//    private String base_datos = "zapateria";
-//    private String username = "Root";
-//    private String pass = "123";
-//    
-//    public Conexion(){
-//        try{
-//            Class.forName("com.mysql.jdbc.Driver");
-//            String url = "jdbc:mysql://" + this.host + ":" + this.port + "/" + this.base_datos;
-//            Conectar = DriverManager.getConnection(url, this.username, this.pass);
-//            System.out.println("conexion exitosa");
-//            
-//        
-//        }catch (ClassNotFoundExcepcion SQLException e){
-//            System.out.println("error");
-//        
-//        }
-//        
-//    
-//    
-//    
-//    }
-//    }
-//}
-//    
-    
-            
-    
+public class Conexion {
 
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String[] args) {
+        String usuario = "root";
+        String clave = "123";
+        String url = "jdbc:mysql://localhost:3306/zapateria";
+
+        Connection con; 
+        Statement stmt;
+        ResultSet rs;
+        
+        
+        // en caso existan errores en la conexion 
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(Conexion.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        // genere mensajes si hay error en la conexion 
+        try {
+            con = DriverManager.getConnection(url,usuario,clave);
+            stmt = con.createStatement();
+            // insert en trabajador 
+            stmt.executeUpdate("insert into trabajador values (null,'jose pino', '123' )");
+        } catch (SQLException ex) {
+            Logger.getLogger(Conexion.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        
+    }
+    
+}

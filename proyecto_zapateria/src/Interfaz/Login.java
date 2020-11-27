@@ -5,11 +5,18 @@
  */
 package Interfaz;
 
+import Clases.Conexion;
+
+import java.sql.Connection;
+
+
 /**
  *
  * @author Jose
  */
 public class Login extends javax.swing.JFrame {
+    Conexion conect = new Conexion();
+    Connection con = conect.Conexion();
 
     /**
      * Creates new form Login

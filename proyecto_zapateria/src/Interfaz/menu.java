@@ -27,30 +27,30 @@ public class menu extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        agregar_producto = new javax.swing.JButton();
-        mostrar_producto = new javax.swing.JButton();
-        vender_producto = new javax.swing.JButton();
+        agregar = new javax.swing.JButton();
+        mostrar = new javax.swing.JButton();
+        vender = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        agregar_producto.setText("Agregar Producto");
-        agregar_producto.addActionListener(new java.awt.event.ActionListener() {
+        agregar.setText("Agregar Producto");
+        agregar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                agregar_productoActionPerformed(evt);
+                agregarActionPerformed(evt);
             }
         });
 
-        mostrar_producto.setText("Mostrar Producto");
-        mostrar_producto.addActionListener(new java.awt.event.ActionListener() {
+        mostrar.setText("Mostrar Producto");
+        mostrar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                mostrar_productoActionPerformed(evt);
+                mostrarActionPerformed(evt);
             }
         });
 
-        vender_producto.setText("Vender Producto");
-        vender_producto.addActionListener(new java.awt.event.ActionListener() {
+        vender.setText("Vender Producto");
+        vender.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                vender_productoActionPerformed(evt);
+                venderActionPerformed(evt);
             }
         });
 
@@ -59,49 +59,49 @@ public class menu extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(agregar_producto, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(agregar, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(mostrar_producto, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(mostrar, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 18, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(86, 86, 86)
-                        .addComponent(vender_producto, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(vender, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(35, 35, 35)
+                .addGap(34, 34, 34)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(agregar_producto, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(mostrar_producto, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(mostrar, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(agregar, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addComponent(vender_producto, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(67, Short.MAX_VALUE))
+                .addComponent(vender, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(55, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void agregar_productoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_agregar_productoActionPerformed
+    private void agregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_agregarActionPerformed
         this.setVisible(false);
         agregar_producto agregar = new agregar_producto();
         agregar.setVisible(true); 
-    }//GEN-LAST:event_agregar_productoActionPerformed
+    }//GEN-LAST:event_agregarActionPerformed
 
-    private void mostrar_productoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mostrar_productoActionPerformed
+    private void mostrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mostrarActionPerformed
         this.setVisible(false);
         mostrar_producto mostrar = new mostrar_producto();
         mostrar.setVisible(true);
-    }//GEN-LAST:event_mostrar_productoActionPerformed
+    }//GEN-LAST:event_mostrarActionPerformed
 
-    private void vender_productoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_vender_productoActionPerformed
+    private void venderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_venderActionPerformed
         this.setVisible(false);
         vender_producto vender = new vender_producto();
         vender.setVisible(true);
-    }//GEN-LAST:event_vender_productoActionPerformed
+    }//GEN-LAST:event_venderActionPerformed
 
     /**
      * @param args the command line arguments
@@ -139,8 +139,8 @@ public class menu extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton agregar_producto;
-    private javax.swing.JButton mostrar_producto;
-    private javax.swing.JButton vender_producto;
+    private javax.swing.JButton agregar;
+    private javax.swing.JButton mostrar;
+    private javax.swing.JButton vender;
     // End of variables declaration//GEN-END:variables
 }
