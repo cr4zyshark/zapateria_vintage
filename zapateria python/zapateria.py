@@ -24,17 +24,42 @@ def agregar_producto():
     _talla  = int(input("ingrese talla del producto: "))
     _categoria_id_fk = int(input("ingrese la id de la categoria: "))
     cursor.callproc("agregar_producto", [_nombre,_precio,_talla,_categoria_id_fk])
-
-
-
-    ##cursor.execute("call agregar_producto('()','{}','{}','{}')").format(_nombre,_precio,_talla, _categoria_id_fk)
-    
-
+    print("--------------------------------")
+    print("Producto Ingresado Correctamente")
+    print("--------------------------------")
     conexion.commit()
 
 
 def mostrar_producto():
-    pass # deja inactiva la funcion 
+    cursor = conexion.cursor() # establece la conexion
+    cursor.execute("SELECT * from producto")
+    resultados = cursor.fetchall()
+    conexion.commit()
+    for recorrer in resultados:
+        print()
+        print(recorrer) 
+        
+   
+# muestra la categoria 
+def mostrar_categoria():
+    cursor = conexion.cursor() # establece la conexion
+    cursor.execute("SELECT * from categoria")
+    resultados = cursor.fetchall()
+    conexion.commit()
+    for recorrer in resultados:
+        print()
+        print(recorrer) 
+
+# elimina los productos 
+def eliminar_producto():
+    print("")
+    cursor = conexion.cursor()
+    _id_producto = int(input("Ingrese Id Del Producto: "))
+    cursor.callproc("borrar_producto", [_id_producto])
+    print("--------------------------------")
+    print("Producto Eliminado Correctamente")
+    print("--------------------------------")
+    conexion.commit()
 
 def vender_producto():
     pass
@@ -46,11 +71,11 @@ def registrar_trabajador():
     print("Registro de trabajador")
     print("-----------------------")
     cursor = conexion.cursor()
-    nombre = input("ingrese su nombre: ")
-    contraseña = input("ingrese su contraseña: ") 
+    nombre = input("Ingrese su nombre: ")
+    contraseña = input("Ingrese su contraseña: ") 
     cursor.execute("INSERT INTO trabajador(nombre,contraseña) VALUES ('{}',SHA2('{}',0));".format(nombre,contraseña))
     print("-----------------------------")
-    print("usuario creado correctamente")
+    print("Usuario Creado Correctamente")
     print("-----------------------------")
     conexion.commit()
    
@@ -59,7 +84,7 @@ def registrar_trabajador():
 # inician sesion los trabajadores 
 def ingresar():
     print("-----------------------")
-    print("Ingreso")
+    print(" Inicio De Sesion ")
     print("-----------------------")
 
     while(True):
@@ -72,10 +97,13 @@ def ingresar():
 
         if (rs[0][0] == 0): #verifica el usuario y la contraseña 
         
-            print("                                ")
-            print("Usuario o contraseña incorrectas")
-            print("                                ")
-           ## ingresar()
+            print("--------------------------------")
+            print("Usuario o Contraseña Incorrectas")
+            print("--------------------------------")
+            print("--------------------------------")
+            print("Intente Nuevamente              ")
+            print("--------------------------------")
+         ## ingresar()
             
 
 
@@ -86,8 +114,12 @@ def ingresar():
                 print("                  ")
                 print("1 - Ingresar Producto")
                 print("2 - Mostrar Producto")
-                print("3 - Vender Producto")
+                print("3 - Mostrar Categoria")
+                print("4 - Eliminar Producto")
+                print("5 - Vender Producto")
+                print("")
                 print("0 - Salir")
+                print("")
 
                 ingreso2 = input("ingrese su opcion: ")
                 ingreso2 = ingreso2.strip().lower()
@@ -99,12 +131,19 @@ def ingresar():
                     mostrar_producto()
                 
                 elif (ingreso2 == "3"):
+                    mostrar_categoria()
+                
+                elif(ingreso2 == "4"):
+                    eliminar_producto()
+                   
+                elif(ingreso2 == "5"):
                     vender_producto()
                 
                 elif(ingreso2 == "0"):
-                    exit()
+                     exit()
+
                 
-                elif(ingreso2 != "1" or ingreso2 != "2" or ingreso2 != "3" or ingreso2 != "0"):
+                elif(ingreso2 != "1" or ingreso2 != "2" or ingreso2 != "3" or ingreso2 != "4" or ingreso2 != "5" or ingreso2 != "0"):
                     print("")
 
 
@@ -119,11 +158,14 @@ def ingresar():
 def inicio_sesion():
 
     while(True):
-        print("1- iniciar sesion")
-        print("2- registrarse ")
-        print("3- salir del programa")
+        print("-----------------")
+        print("Zapateria Vintage")
+        print("-----------------")
+        print("1- Iniciar Sesion")
+        print("2- Registrarse ")
+        print("3- Salir ")
         ingreso1 = input("ingrese su opcion: ")
-        ingreso1 = ingreso1.strip().lower()
+        ingreso1 = ingreso1.strip().lower() # toma datos en mayuscula y minuscula 
 
         if (ingreso1 == "3"):
             exit()

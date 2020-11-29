@@ -42,7 +42,9 @@ CREATE TABLE cliente(
     nombre VARCHAR(30),
 
 
-    PRIMARY KEY(id_cliente)
+    PRIMARY KEY(id_cliente),
+
+    UNIQUE(rut_cliente)
 
 
 );
@@ -62,7 +64,8 @@ CREATE TABLE categoria(
   
 
 
-    PRIMARY KEY(id_categoria)
+    PRIMARY KEY(id_categoria),
+    UNIQUE(nombre_categoria)
 
 
 );
