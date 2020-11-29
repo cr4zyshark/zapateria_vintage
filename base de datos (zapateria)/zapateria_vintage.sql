@@ -84,6 +84,7 @@ CREATE TABLE producto(
     nombre_producto VARCHAR(30),
     precio INT,
     talla INT,
+    stock INT, -- agregado reciente 
 
 
     -- FK
@@ -100,7 +101,7 @@ CREATE TABLE producto(
 
 -- crear datos      
                                                           -- categoria
-INSERT INTO producto VALUES(null, "adidas revolt", 5000, 39,        2);
+INSERT INTO producto VALUES(null, "adidas revolt", 5000, 39, 12,       2);
 
 
 -----------------------------------------------------------------------
@@ -111,21 +112,24 @@ CREATE TABLE historial_precio(
     id_historial int AUTO_INCREMENT,
     nombre VARCHAR(30),
     precio_anterior INT,
+    fecha_actualizacion DATETIME,  -- arreglar 
 
 
     PRIMARY KEY(id_historial)
 
+
 );
+
 -------------------------------------------------------------------
 
 -- factura 
 CREATE TABLE factura(
+
     id_factura INT AUTO_INCREMENT,
     
     -- fk
 
     cliente_id_fk INT,
-    trabajador_id_fk INT,
 
     -- datos
 
@@ -135,8 +139,7 @@ CREATE TABLE factura(
     PRIMARY KEY(id_factura),
 
 
-    FOREIGN KEY(cliente_id_fk) REFERENCES cliente(id_cliente),
-    FOREIGN KEY(trabajador_id_fk) REFERENCES trabajador(id_trabajador)
+    FOREIGN KEY(cliente_id_fk) REFERENCES cliente(id_cliente)
 
 
 );
@@ -144,8 +147,8 @@ CREATE TABLE factura(
 -----------------------------------------------------------------------
 
 -- crear datos 
-                           -- id_factura(1)   --id_cliente  -- id_trabajador   -- fecha_venta (ahora)
-INSERT INTO factura VALUES(null          ,  1          ,           1        , NOW() , 0);
+                           -- id_factura(1)   --id_cliente  -- fecha_venta (ahora)
+INSERT INTO factura VALUES(null          ,  1                    , NOW() , 0);
 
 
 UPDATE factura SET estado_pago = 1 WHERE id_factura = 1;
@@ -157,7 +160,7 @@ CREATE table factura_pagada(
     id_fact_pagado INT AUTO_INCREMENT,
     factura_id_fk int,
     fecha_venta DATETIME,
-    estado_pago BIT DEFAULT 0,
+    estado_pago BIT DEFAULT 1,
 
     PRIMARY KEY(id_fact_pagado),
 
@@ -219,7 +222,7 @@ INSERT INTO detalle VALUES(null        ,       1       ,       1         ,    3 
 
 DELIMITER //
 
-CREATE PROCEDURE agregar_producto(IN _nombre VARCHAR(30), IN _precio INT, IN _talla INT, IN _categoria_id_fk INT)
+CREATE PROCEDURE agregar_producto(IN _nombre VARCHAR(30), IN _precio INT, IN _talla INT, IN _stock INT,IN _categoria_id_fk INT)
 
 BEGIN
 
@@ -231,7 +234,7 @@ BEGIN
 
         IF condicion = 0 THEN
         
-        INSERT INTO producto VALUES(null,_nombre,_precio,_talla, _categoria_id_fk);
+        INSERT INTO producto VALUES(null,_nombre,_precio,_talla,_stock, _categoria_id_fk);
         SELECT'Producto ingresado' AS "mensaje";
 
         ELSE
@@ -240,12 +243,12 @@ BEGIN
 
     END //
 
- DELIMITER;
+ DELIMITER ;
 
 
 -- agrega productos
 
-call agregar_producto("court", 3000,41,2);
+call agregar_producto("court", 3000,41,34,2);
 
 
 -----------------------------------------------------------------------
@@ -299,7 +302,7 @@ FOR EACH ROW
 
 BEGIN
                                   -- muestra los datos que necesita de la tabla producto
-    INSERT INTO historial_precio values(NULL,OLD.nombre_producto, OLD.precio );
+    INSERT INTO historial_precio values(NULL,OLD.nombre_producto, OLD.precio, NOW());  -- cambiar a inner 
 
 END//
 

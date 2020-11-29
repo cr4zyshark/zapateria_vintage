@@ -1,6 +1,7 @@
 # libreria 
 import mysql.connector
 
+
 # conexion a base de datos
 conexion = mysql.connector.connect(    
     
@@ -17,13 +18,16 @@ conexion = mysql.connector.connect(
 
 
 def agregar_producto():
-    print("")
+    print("-------------------")
+    print("Ingreso De Producto")
+    print("-------------------")
     cursor = conexion.cursor()
     _nombre = input("ingrese nombre del producto: ")
     _precio = int(input("ingrese precio del producto: "))
     _talla  = int(input("ingrese talla del producto: "))
+    _stock = int(input("ingrese stock del producto: "))
     _categoria_id_fk = int(input("ingrese la id de la categoria: "))
-    cursor.callproc("agregar_producto", [_nombre,_precio,_talla,_categoria_id_fk])
+    cursor.callproc("agregar_producto", [_nombre,_precio,_talla,_stock,_categoria_id_fk])
     print("--------------------------------")
     print("Producto Ingresado Correctamente")
     print("--------------------------------")
@@ -31,6 +35,9 @@ def agregar_producto():
 
 
 def mostrar_producto():
+    print("-------------------")
+    print("Productos")
+    print("-------------------")
     cursor = conexion.cursor() # establece la conexion
     cursor.execute("SELECT * from producto")
     resultados = cursor.fetchall()
@@ -42,17 +49,22 @@ def mostrar_producto():
    
 # muestra la categoria 
 def mostrar_categoria():
+    print("-------------------")
+    print("Categoria")
+    print("-------------------")
     cursor = conexion.cursor() # establece la conexion
     cursor.execute("SELECT * from categoria")
     resultados = cursor.fetchall()
     conexion.commit()
-    for recorrer in resultados:
+    for recorrer in resultados: # recorre los datos ordenadamente y no en una sola linea 
         print()
         print(recorrer) 
 
 # elimina los productos 
 def eliminar_producto():
-    print("")
+    print("-------------------")
+    print("Eliminar Producto")
+    print("-------------------")
     cursor = conexion.cursor()
     _id_producto = int(input("Ingrese Id Del Producto: "))
     cursor.callproc("borrar_producto", [_id_producto])
@@ -61,7 +73,45 @@ def eliminar_producto():
     print("--------------------------------")
     conexion.commit()
 
+
+def actualizar_precio():
+    print("------------------")
+    print("Actualizar Precio ")
+    print("------------------")
+
+    cursor = conexion.cursor()
+    precio = int(input("ingrese el precio nuevo: "))
+    id_producto = int(input("ingrese id del producto: "))
+    cursor.execute("update producto set precio = '{}' where id_producto = '{}' ".format(precio, id_producto))
+    print("--------------------------------")
+    print("Precio Actualizado Correctamente")
+    print("--------------------------------")
+    conexion.commit()
+    
+
+# realizar este 
+def historial_precio():
+    print("-------------------")
+    print("Historial")
+    print("-------------------")
+    cursor = conexion.cursor() # establece la conexion
+
+    cursor.execute("SELECT * from historial_precio")
+    resultados = cursor.fetchall()
+    conexion.commit()
+    for recorrer in resultados:
+        print("")
+        print("------------------------------")
+        print(recorrer [0], end =": () - Producto: "),  print(recorrer[1], end = " () - Precio Anterior: ") ,  print(recorrer[2], end = " () - Fecha De Creacion: "), print(recorrer[3], end =" ") 
+        print("")
+
+
+
+
+## realizar este
 def vender_producto():
+    cursor = conexion.cursor()
+
     pass
 
 
@@ -112,11 +162,18 @@ def ingresar():
                 print("                  ")
                 print("Bienvenido al menu")
                 print("                  ")
+                print("Opciones/Productos: ")
+                print("                  ")
                 print("1 - Ingresar Producto")
                 print("2 - Mostrar Producto")
                 print("3 - Mostrar Categoria")
                 print("4 - Eliminar Producto")
-                print("5 - Vender Producto")
+                print("5 - Actualizar Precio Del Producto")
+                print("6 - Historial Precio Anterior")
+                print("")
+                print("Opciones/Venta: ")
+                print("")
+                print("7 - Vender Producto")
                 print("")
                 print("0 - Salir")
                 print("")
@@ -135,15 +192,21 @@ def ingresar():
                 
                 elif(ingreso2 == "4"):
                     eliminar_producto()
-                   
+                
                 elif(ingreso2 == "5"):
+                    actualizar_precio()
+
+                elif(ingreso2 == "6"):
+                    historial_precio()
+
+                elif(ingreso2 == "7"):
                     vender_producto()
                 
                 elif(ingreso2 == "0"):
                      exit()
 
                 
-                elif(ingreso2 != "1" or ingreso2 != "2" or ingreso2 != "3" or ingreso2 != "4" or ingreso2 != "5" or ingreso2 != "0"):
+                elif(ingreso2 != "1" or ingreso2 != "2" or ingreso2 != "3" or ingreso2 != "4" or ingreso2 != "5" or ingreso2 != "6" or ingreso2 != "7" or ingreso2 != "0"):
                     print("")
 
 
@@ -179,9 +242,7 @@ def inicio_sesion():
         elif(ingreso1 != "1" or ingreso1 != "2" or ingreso1 != "3"):
             print("")
 
-           
-inicio_sesion()
-
+print(inicio_sesion())
 
 
 
