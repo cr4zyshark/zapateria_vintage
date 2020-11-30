@@ -89,7 +89,7 @@ def actualizar_precio():
     conexion.commit()
     
 
-# realizar este 
+#historial de precios anteriores
 def historial_precio():
     print("-------------------")
     print("Historial")
@@ -106,13 +106,125 @@ def historial_precio():
         print("")
 
 
+### aca 
+### problema en validacion
+def agregar_cliente ():
+    while(True):
+        print("")
+        print("verificador de rut: ")
+        print("")
+        cursor = conexion.cursor()
+        rut_cliente = input("ingrese rut del cliente: ")
+        nombre = input("ingrese nombre del cliente: ")
+        cursor.execute("SELECT COUNT(*) FROM cliente  WHERE rut_cliente = '{}';".format(rut_cliente).lower().strip())
+        
+
+        rs = cursor.fetchall()
+        
+        ### error verificacion 
+        if (rs[0][0]== 0): 
+        
+            print("--------------------------------")
+            print("Este Rut Ya Existe")
+            print("--------------------------------")
+            print("--------------------------------")
+            print("Intente Nuevamente              ")
+            print("--------------------------------")
+            
+            
+        
+        else:
+
+            print("")
+            print("su rut es correcto")
+    
+
+### arreglar 
+def agregar_factura():
+    print("")
+    print(" Factura ")
+    print("")
+    cursor = conexion.cursor()
+    cliente_id_fk = int(input("ingrese id del cliente: "))
+    cursor.execute("insert into factura(cliente_id_fk, fecha_venta) values ('{}', now());".format(cliente_id_fk))
+    conexion.commit()
+
+
+
+def agregar_detalle():
+    print("")
+    print(" Detalle De la Venta")
+    print("")
+    cursor = conexion.cursor()
+    factura_id_fk = int(input("ingrese id de la factura: "))
+    producto_id_fk = int(input("ingrese el id del producto: "))
+    cantidad = int(input("ingrese cantidad del producto: "))
+    cursor.execute("INSERT INTO detalle(factura_id_fk, producto_id_fk, cantidad) VALUES('{}', '{}' , '{}' , (SELECT precio FROM producto WHERE id_producto = producto_id_fk '{}' ) * cantidad '{}');".format(factura_id_fk , producto_id_fk, cantidad ))
+    conexion.commit()
+    
+
+def mostrar_cliente():
+    cursor = conexion.cursor() # establece la conexion
+    cursor.execute("SELECT * from cliente")
+    resultados = cursor.fetchall()
+    conexion.commit()
+    for recorrer in resultados: # recorre los datos ordenadamente y no en una sola linea 
+        print("")
+        print(recorrer [0], end=": () - Rut: ") , print(recorrer [1],  end=" () - Nombre: " ) , print(recorrer [2], end="") 
+        print("")
+
+
+
+def mostrar_factura():
+    pass
+
+
+def mostrar_detalle():
+    pass
 
 
 ## realizar este
 def vender_producto():
-    cursor = conexion.cursor()
 
-    pass
+    while(True):
+        print("")
+        print("1 - Ingresar cliente")
+        print("2 - ingresar factura")
+        print("3 - ingresar detalle")
+        print("")
+        print("4 - mostrar clientes")
+        print("5 - mostrar facturas")
+        print("6 - mostrar detalles de venta")
+        cursor = conexion.cursor()
+        ingreso3 = input("ingrese su opcion: ")
+        ingreso3 = ingreso3.strip().lower()
+
+        if (ingreso3 == "1"):
+            agregar_cliente()
+
+        elif(ingreso3 == "2"):
+            agregar_factura()
+
+        elif(ingreso3 == "3"):
+            agregar_detalle()
+
+        elif (ingreso3 == "4"):
+            mostrar_cliente()
+
+        elif (ingreso3 == "5"):
+            mostrar_factura()
+        
+        elif (ingreso3 == "6"):
+            mostrar_detalle()
+
+        else:
+            print("")
+            print("opcion selecionada incorrecta")
+            print("")
+            print("intente nuevamente")
+            print("")
+            
+    
 
 
 
