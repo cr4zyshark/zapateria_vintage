@@ -34,6 +34,7 @@ def agregar_producto():
     conexion.commit()
 
 
+### muestra el producto 
 def mostrar_producto():
     print("-------------------")
     print("Productos")
@@ -60,6 +61,7 @@ def mostrar_categoria():
         print()
         print(recorrer) 
 
+
 # elimina los productos 
 def eliminar_producto():
     print("-------------------")
@@ -73,6 +75,7 @@ def eliminar_producto():
     print("--------------------------------")
     conexion.commit()
 
+### actualiza el precio 
 
 def actualizar_precio():
     print("------------------")
@@ -106,8 +109,7 @@ def historial_precio():
         print("")
 
 
-### aca 
-### problema en validacion
+### agrega clientes 
 def agregar_cliente ():
     while(True):
         print("")
@@ -116,30 +118,29 @@ def agregar_cliente ():
         cursor = conexion.cursor()
         rut_cliente = input("ingrese rut del cliente: ")
         nombre = input("ingrese nombre del cliente: ")
-        cursor.execute("SELECT COUNT(*) FROM cliente  WHERE rut_cliente = '{}';".format(rut_cliente).lower().strip())
+        cursor.execute("SELECT COUNT(*) FROM cliente  WHERE rut_cliente = '{}';".format(rut_cliente.lower().strip()))
         
 
         rs = cursor.fetchall()
+        conexion.commit()
         
         ### error verificacion 
         if (rs[0][0]== 0): 
         
             print("--------------------------------")
-            print("Este Rut Ya Existe")
-            print("--------------------------------")
-            print("--------------------------------")
-            print("Intente Nuevamente              ")
-            print("--------------------------------")
-            
+            print("Cliente Agregado Con Exito")
+            cursor.execute("insert into cliente(rut_cliente, nombre) values ('{}', '{}');".format(rut_cliente , nombre))
+            break     
             
         
         else:
 
             print("")
-            print("su rut es correcto")
+            print("Datos Ya Existentes ")
+            break 
     
 
-### arreglar 
+### agrega factura 
 def agregar_factura():
     print("")
     print(" Factura ")
@@ -150,6 +151,7 @@ def agregar_factura():
     conexion.commit()
 
 
+### agrega clientes 
 
 def agregar_detalle():
     print("")
@@ -162,6 +164,7 @@ def agregar_detalle():
     cursor.execute("INSERT INTO detalle(factura_id_fk, producto_id_fk, cantidad) VALUES('{}', '{}' , '{}' , (SELECT precio FROM producto WHERE id_producto = producto_id_fk '{}' ) * cantidad '{}');".format(factura_id_fk , producto_id_fk, cantidad ))
     conexion.commit()
     
+### muestra cliente 
 
 def mostrar_cliente():
     cursor = conexion.cursor() # establece la conexion
