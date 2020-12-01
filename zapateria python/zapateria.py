@@ -1,4 +1,4 @@
-# libreria 
+
 import mysql.connector
 
 
@@ -121,11 +121,11 @@ def agregar_cliente ():
         cursor.execute("SELECT COUNT(*) FROM cliente  WHERE rut_cliente = '{}';".format(rut_cliente.lower().strip()))
         
 
-        rs = cursor.fetchall()
+        resultado = cursor.fetchall()
         conexion.commit()
         
-        ### error verificacion 
-        if (rs[0][0]== 0): 
+         
+        if (resultado[0][0]== 0): 
         
             print("--------------------------------")
             print("Cliente Agregado Con Exito")
@@ -149,23 +149,48 @@ def agregar_factura():
     cliente_id_fk = int(input("ingrese id del cliente: "))
     cursor.execute("insert into factura(cliente_id_fk, fecha_venta) values ('{}', now());".format(cliente_id_fk))
     conexion.commit()
+    print("-------------------------------")
+    print("Factura Ingresada Correctamente")
+    print("-------------------------------")
 
 
-### agrega clientes 
-
+### agrega detalle  
 def agregar_detalle():
     print("")
     print(" Detalle De la Venta")
     print("")
+
+
+
     cursor = conexion.cursor()
     factura_id_fk = int(input("ingrese id de la factura: "))
-    producto_id_fk = int(input("ingrese el id del producto: "))
-    cantidad = int(input("ingrese cantidad del producto: "))
-    cursor.execute("INSERT INTO detalle(factura_id_fk, producto_id_fk, cantidad) VALUES('{}', '{}' , '{}' , (SELECT precio FROM producto WHERE id_producto = producto_id_fk '{}' ) * cantidad '{}');".format(factura_id_fk , producto_id_fk, cantidad ))
-    conexion.commit()
-    
-### muestra cliente 
 
+    producto_id_fk = int(input("ingrese el id del producto: "))
+    #producto = str(producto_id_fk)
+    cantidad = int(input("ingrese cantidad del producto: "))
+    #cant = str(cantidad)
+    #cursor.execute()
+    #conexion.commit()
+
+
+    sql_2 = "SELECT precio FROM producto WHERE id_producto = " + str(producto_id_fk)
+    cursor.execute(sql_2)
+    rs = cursor.fetchall()
+   
+    total = int(rs[0][0]) * cantidad
+    #print(int(rs[0][0]) + 1 )
+    conexion.commit()
+
+    if(total != 0):
+        sql_1 = "INSERT INTO detalle VALUES(null, "+str(factura_id_fk) +" ,"+ str(producto_id_fk) +", "+str(cantidad) +", "+ str(total) +") "
+        cursor.execute(sql_1)
+        conexion.commit()
+
+
+
+
+
+### muestra cliente 
 def mostrar_cliente():
     cursor = conexion.cursor() # establece la conexion
     cursor.execute("SELECT * from cliente")
@@ -178,12 +203,33 @@ def mostrar_cliente():
 
 
 
+# aca 
+
 def mostrar_factura():
-    pass
+    print("-------------------")
+    print("factura")
+    print("-------------------")
+    cursor = conexion.cursor() # establece la conexion
+
+    cursor.execute("SELECT * from factura")
+    resultados = cursor.fetchall()
+    conexion.commit()
+    for recorrer in resultados:
+        print("")
+        print("------------------------------")
+        print(recorrer [0], end =": () - id cliente: "),  print(recorrer[1], end = " () - fecha de venta: ") ,  print(recorrer[2], end = " () - Estado de pago: "), print(recorrer[3], end =" ") 
+        print("")
 
 
 def mostrar_detalle():
-    pass
+    cursor = conexion.cursor() # establece la conexion
+    cursor.execute("SELECT * from detalle")
+    resultados = cursor.fetchall()
+    conexion.commit()
+    for recorrer in resultados: # recorre los datos ordenadamente y no en una sola linea 
+        print("")
+        print(recorrer [0], end=": () - : ") , print(recorrer [1],  end=" () - : " ) , print(recorrer [2], end="") 
+        print("")
 
 
 ## realizar este
@@ -198,6 +244,7 @@ def vender_producto():
         print("4 - mostrar clientes")
         print("5 - mostrar facturas")
         print("6 - mostrar detalles de venta")
+        print("")
         cursor = conexion.cursor()
         ingreso3 = input("ingrese su opcion: ")
         ingreso3 = ingreso3.strip().lower()
@@ -258,9 +305,9 @@ def ingresar():
         cursor = conexion.cursor()
         cursor.execute("SELECT COUNT(*) FROM trabajador WHERE nombre = '{}' AND contraseña = SHA2('{}',0)".format(nombre,contraseña).lower().strip()) #lower : minuscula y mayuscula, .strip: sirve para los espacios
 
-        rs = cursor.fetchall()
+        resultado = cursor.fetchall()
 
-        if (rs[0][0] == 0): #verifica el usuario y la contraseña 
+        if (resultado[0][0] == 0): #verifica el usuario y la contraseña 
         
             print("--------------------------------")
             print("Usuario o Contraseña Incorrectas")
