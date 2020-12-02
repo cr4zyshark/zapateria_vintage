@@ -46,7 +46,7 @@ def mostrar_producto():
     conexion.commit()
     for recorrer in resultados:
         print()
-        print(recorrer) 
+        print(recorrer)
         
    
 # muestra la categoria 

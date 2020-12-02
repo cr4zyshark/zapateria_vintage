@@ -16,7 +16,6 @@
 
 # ejecutar software:
 
-## al momento de ejecutar el archivo .py debera antes 
 
 
 ## imagen 
