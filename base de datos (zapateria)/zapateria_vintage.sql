@@ -350,7 +350,6 @@ CREATE FUNCTION stock_disponiblee (_id_producto INT)
     
 
 
-
 select stock_disponiblee(1);
 -- consultar 
 

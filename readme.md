@@ -4,10 +4,19 @@
 
 
 # PROBLEMATICA:
-## El dueño de una tienda de venta calzado vintage me solicita la creacion de un programa para administrar de manera correcta su tienda, nos solicita los siguientes requisitos:
+## El encargado de una tienda de venta  de calzado vintage solicita la creacion de un software el cual le permita  administrar de manera correcta su tienda, nos solicita los siguientes requisitos:
+
 ## [] Ingresar Producto
-## [] Mostrar los Productos  
+## [] Mostrar los Productos
+## [] actualizar el precio de los productos
+## [] historial de los precios anteriores  
 ## [] Vender el Producto
+## [] etc...
+
+
+# ejecutar software:
+
+## al momento de ejecutar el archivo .py debera antes 
 
 
 ## imagen 
