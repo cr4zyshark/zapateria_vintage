@@ -34,6 +34,7 @@ def agregar_producto():
     conexion.commit()
 
 
+
 ### muestra el producto 
 def mostrar_producto():
     print("-------------------")
@@ -74,6 +75,7 @@ def eliminar_producto():
     print("Producto Eliminado Correctamente")
     print("--------------------------------")
     conexion.commit()
+    
 
 ### actualiza el precio 
 
@@ -179,13 +181,32 @@ def agregar_detalle():
         sql_1 = "INSERT INTO detalle VALUES(null, "+str(factura_id_fk) +" ,"+ str(producto_id_fk) +", "+str(cantidad) +", "+ str(total) +") "
         cursor.execute(sql_1)
         
-        sql_4 = "update producto set stock = "+str(cantidad) +" where id_producto = "+ str(producto_id_fk) +""
 
+        sql_4 = "SELECT stock FROM producto WHERE id_producto = " + str(producto_id_fk)
         cursor.execute(sql_4)
-        conexion.commit()
+        rs = cursor.fetchall()
+        nuevo_stock = rs[0][0] - cantidad
+
+        if nuevo_stock > 0:
+
+
+            sql_5 = "update producto set stock = "+ str(nuevo_stock) +" where id_producto = "+ str(producto_id_fk) +""
+
+
+            cursor.execute(sql_5)
+            conexion.commit()
+
+            print("--------------------------------")
+            print("Detalle Ingresado Correctamente ")
+            print("--------------------------------")
+
+
+
+    else:
         print("--------------------------------")
-        print("Detalle Ingresado Correctamente ")
+        print(" stock insuficiente o producto no existente")
         print("--------------------------------")
+            
 
 #######################
 
@@ -275,14 +296,23 @@ def total_venta():
         
     
 
-### problema 
+
 def mostrar_stock():
     print("")
     print("------------------")
     print("stock Del Producto")
     print("------------------")
     print("")
-    pass
+
+    cursor = conexion.cursor()
+    _id_producto = int(input("Ingrese Id Del Producto: "))
+    cursor.execute("select stock_disponiblee({})".format(str(_id_producto)))
+    rs = cursor.fetchone() # entrega tupla 
+    print(rs[0])
+    print("--------------------------------")
+    print(" stock Correctamente")
+    print("--------------------------------")
+    conexion.commit()
 
 
  

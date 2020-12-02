@@ -339,21 +339,22 @@ delimiter ;
 
 -- funcion
 
-delimiter //
 
-CREATE FUNCTION stock_disponible (_id_producto INT) RETURNS int
-BEGIN
+
+CREATE FUNCTION stock_disponiblee (_id_producto INT) 
+
+    RETURNS int
+
     RETURN (select stock FROM producto WHERE id_producto = _id_producto );
-    END //
 
-DELIMITER ;
-
+    
 
 
 
+select stock_disponiblee(1);
 -- consultar 
 
-select stock_disponible(1);
+
 
 
 
@@ -363,7 +364,14 @@ select stock_disponible(1);
 ----------------------------------------------------------------------------
 
 
+delimiter //
 
+CREATE FUNCTION stock_disponible (_id_producto INT) RETURNS int
+BEGIN
+    RETURN (select stock FROM producto WHERE id_producto = _id_producto );
+    END //
+
+DELIMITER ;
 
 
 
