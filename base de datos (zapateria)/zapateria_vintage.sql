@@ -134,7 +134,7 @@ CREATE TABLE factura(
     -- datos
 
     fecha_venta DATETIME,  -- e
-    estado_pago BIT DEFAULT 0,
+    estado_pago int,
 
     PRIMARY KEY(id_factura),
 
@@ -160,7 +160,7 @@ CREATE table factura_pagada(
     id_fact_pagado INT AUTO_INCREMENT,
     factura_id_fk int,
     fecha_venta DATETIME,
-    estado_pago BIT DEFAULT 1,
+    
 
     PRIMARY KEY(id_fact_pagado),
 
@@ -328,7 +328,7 @@ FOR EACH ROW
 
 BEGIN
                                   -- muestra los datos que necesita de la tabla producto
-    INSERT INTO factura_pagada values(null,old.id_factura,old.fecha_venta, OLD.estado_pago);
+    INSERT INTO factura_pagada values(null,old.id_factura,old.fecha_venta);
 
 END//
 
@@ -337,30 +337,30 @@ delimiter ;
 
 -------------------------------------------------------------------------------------------------
 
--- funcion 
-
-
--- muestra el nombre de los clientes mediante la id 
+-- funcion
 
 delimiter //
 
-CREATE FUNCTION nombre_cliente (_id_clientes INT) RETURNS VARCHAR(30)
+CREATE FUNCTION stock_disponible (_id_producto INT) RETURNS int
 BEGIN
-    RETURN (select nombre FROM cliente WHERE id_cliente = _id_clientes);
+    RETURN (select stock FROM producto WHERE id_producto = _id_producto );
     END //
 
 DELIMITER ;
 
+
+
+
 -- consultar 
 
-select nombre_cliente(1);
+select stock_disponible(1);
+
+
 
 
 
 
 ----------------------------------------------------------------------------
-
-
 
 
 

@@ -149,11 +149,12 @@ def agregar_factura():
     cliente_id_fk = int(input("ingrese id del cliente: "))
     cursor.execute("insert into factura(cliente_id_fk, fecha_venta) values ('{}', now());".format(cliente_id_fk))
     conexion.commit()
+
     print("-------------------------------")
     print("Factura Ingresada Correctamente")
     print("-------------------------------")
 
-
+### arreglar descuento en stock
 ### agrega detalle  
 def agregar_detalle():
     print("")
@@ -164,27 +165,41 @@ def agregar_detalle():
 
     cursor = conexion.cursor()
     factura_id_fk = int(input("ingrese id de la factura: "))
-
     producto_id_fk = int(input("ingrese el id del producto: "))
-    #producto = str(producto_id_fk)
     cantidad = int(input("ingrese cantidad del producto: "))
-    #cant = str(cantidad)
-    #cursor.execute()
-    #conexion.commit()
-
-
+    
     sql_2 = "SELECT precio FROM producto WHERE id_producto = " + str(producto_id_fk)
     cursor.execute(sql_2)
     rs = cursor.fetchall()
    
-    total = int(rs[0][0]) * cantidad
-    #print(int(rs[0][0]) + 1 )
+    total = int(rs[0][0]) * cantidad 
     conexion.commit()
 
     if(total != 0):
         sql_1 = "INSERT INTO detalle VALUES(null, "+str(factura_id_fk) +" ,"+ str(producto_id_fk) +", "+str(cantidad) +", "+ str(total) +") "
         cursor.execute(sql_1)
+        
+        sql_4 = "update producto set stock = "+str(cantidad) +" where id_producto = "+ str(producto_id_fk) +""
+
+        cursor.execute(sql_4)
         conexion.commit()
+        print("--------------------------------")
+        print("Detalle Ingresado Correctamente ")
+        print("--------------------------------")
+
+#######################
+
+def actualizar_pago():
+
+    cursor = conexion.cursor()
+    precio = int(input("ingrese estado de pago: "))
+    id_producto = int(input("ingrese id de factura: "))
+    cursor.execute("update factura set estado_pago = '{}' where id_factura = '{}' ".format(precio, id_producto))
+    print("--------------------------------")
+    print("producto facturado Correctamente")
+    print("--------------------------------")
+    conexion.commit()
+
 
 
 
@@ -203,7 +218,8 @@ def mostrar_cliente():
 
 
 
-# aca 
+
+
 
 def mostrar_factura():
     print("-------------------")
@@ -228,11 +244,51 @@ def mostrar_detalle():
     conexion.commit()
     for recorrer in resultados: # recorre los datos ordenadamente y no en una sola linea 
         print("")
-        print(recorrer [0], end=": () - : ") , print(recorrer [1],  end=" () - : " ) , print(recorrer [2], end="") 
+        print(recorrer [0], end=": () - id Factura: ") , print(recorrer [1],  end=" () - id Producto : " ) , print(recorrer [2], end="() - Cantidad: ") ,print(recorrer [3], end="() - Precio Total: ") , print(recorrer [4], end=" ") 
         print("")
 
 
-## realizar este
+
+def  factura_actualizada():
+    
+    cursor = conexion.cursor() # establece la conexion
+    cursor.execute("SELECT * from factura_pagada")
+    resultados = cursor.fetchall()
+    conexion.commit()
+    for recorrer in resultados: # recorre los datos ordenadamente y no en una sola linea 
+        print("")
+        print(recorrer [0], end=": () - id Factura: ") , print(recorrer [1], end=" () - fecha_venta: ") ,print(recorrer [2], end=" ") 
+        print("")
+    
+
+def total_venta():
+
+    cursor = conexion.cursor() # establece la conexion
+    cursor.execute("select SUM(precio_total)FROM detalle")
+    resultados = cursor.fetchall()
+    conexion.commit()
+    for recorrer in resultados: # recorre los datos ordenadamente y no en una sola linea 
+        print("------------")
+        print("Precio Total")
+        print("------------")
+        print(recorrer [0])
+        
+    
+
+### problema 
+def mostrar_stock():
+    print("")
+    print("------------------")
+    print("stock Del Producto")
+    print("------------------")
+    print("")
+    pass
+
+
+ 
+    
+
+
 def vender_producto():
 
     while(True):
@@ -240,11 +296,18 @@ def vender_producto():
         print("1 - Ingresar cliente")
         print("2 - ingresar factura")
         print("3 - ingresar detalle")
+        print("4 - Actualizar pago del cliente")
         print("")
-        print("4 - mostrar clientes")
-        print("5 - mostrar facturas")
-        print("6 - mostrar detalles de venta")
+        print("5 - mostrar clientes")
+        print("6 - mostrar facturas")
+        print("7 - mostrar detalles de venta")
+        print("8 - Mostrar facturas Pagadas")
         print("")
+        print("9 - Total Ventas")
+        print("10 - Stock Disponible")
+        print("")
+        print("0 - Salir")
+
         cursor = conexion.cursor()
         ingreso3 = input("ingrese su opcion: ")
         ingreso3 = ingreso3.strip().lower()
@@ -259,13 +322,31 @@ def vender_producto():
             agregar_detalle()
 
         elif (ingreso3 == "4"):
-            mostrar_cliente()
+            actualizar_pago()
 
         elif (ingreso3 == "5"):
-            mostrar_factura()
+            mostrar_cliente()
+           
         
         elif (ingreso3 == "6"):
+            mostrar_factura()
+
+        elif (ingreso3 == "7"): 
             mostrar_detalle()
+            
+
+        elif (ingreso3 == "8"):
+            factura_actualizada()
+            
+        
+        elif (ingreso3 == "9"):
+            total_venta()
+        
+        elif (ingreso3 == "10"):
+            mostrar_stock()
+
+        elif (ingreso3 == "0"):
+            exit()
 
         else:
             print("")
